@@ -22,7 +22,6 @@ jobs:
     #   with:
     #     python-version: 3.8
 
-    #   #Build Layer 1: PDF Processing
     # - name: Build Layer 1 - PDF Processing
     #   run: |
     #     mkdir -p layer1/python
@@ -33,7 +32,6 @@ jobs:
     # - name: Upload Layer 1 to S3
     #   run: aws s3 cp layer1.zip s3://my-cognito-login-page/layer1.zip
 
-    #   #Build Layer 2: Embedding & Tokenization
     # - name: Build Layer 2 - Embedding
     #   run: |
     #     mkdir -p layer2/python
@@ -44,7 +42,6 @@ jobs:
     # - name: Upload Layer 2 to S3
     #   run: aws s3 cp layer2.zip s3://my-cognito-login-page/layer2.zip
 
-    #   #Build Layer 3: Database & AWS SDK
     # - name: Build Layer 3 - DB & AWS
     #   run: |
     #     mkdir -p layer3/python
@@ -54,7 +51,7 @@ jobs:
 
     # - name: Upload Layer 3 to S3
     #   run: aws s3 cp layer3.zip s3://my-cognito-login-page/layer3.zip
-    #   #Build Lambda Function Package
+
     # - name: Build Lambda Function Package
     #   run: |
     #     mkdir -p lambda/build
@@ -65,25 +62,18 @@ jobs:
     # - name: Upload Lambda Function to S3
     #   run: aws s3 cp lambda/ingestion.zip s3://my-cognito-login-page/ingestion.zip
 
-      #Set up Terraform
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
       with:
-        terraform_version: '1.10.5'
+        terraform_version: '1.11.4'
 
     - name: Terraform Init
       run: terraform init
 
-    # - name: Terraform Apply
-    #   run: terraform apply -auto-approve
-    #   env:
-    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     DB_HOST: first
-    #     DB_NAME: first
-    #     DB_USER: first
-    #     DB_PASSWORD: Abhishek@8915
+    - name: Create dummy ingestion.zip if missing
+      run: |
+        mkdir -p lambda
+        touch lambda/ingestion.zip
 
-
-    - name: Terraform Ades
+    - name: Terraform Destroy
       run: terraform destroy -auto-approve
