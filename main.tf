@@ -89,6 +89,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   engine               = "aurora-postgresql"
   master_username      = var.db_user
   master_password      = var.db_password
+  deletion_protection = false
   skip_final_snapshot  = true
 }
 
