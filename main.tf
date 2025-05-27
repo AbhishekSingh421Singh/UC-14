@@ -64,8 +64,6 @@ resource "aws_lambda_function" "ingestion_function" {
   runtime       = "python3.8"
   timeout       = 30
 
-  source_code_hash = filebase64sha256("${path.module}/lambda/ingestion.zip")
-
   layers = [
     aws_lambda_layer_version.pdf_layer.arn,
     aws_lambda_layer_version.embedding_layer.arn,
@@ -89,7 +87,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   engine               = "aurora-postgresql"
   master_username      = var.db_user
   master_password      = var.db_password
-  deletion_protection = false
+  deletion_protection  = false
   skip_final_snapshot  = true
 }
 
