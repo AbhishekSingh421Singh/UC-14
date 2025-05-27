@@ -1,4 +1,4 @@
-name: Deploy Lambda Function without Embeddings
+name: Creating a infra for UC-14
 
 on:
   push:
